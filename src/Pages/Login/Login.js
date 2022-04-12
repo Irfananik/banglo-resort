@@ -1,7 +1,7 @@
 import { getAuth } from 'firebase/auth';
 import React, { useState } from 'react';
 import { useSignInWithEmailAndPassword } from 'react-firebase-hooks/auth';
-import { useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import app from '../../firebase.init';
 import useFirbase from '../../hooks/useFirebase';
 import './Login.css'
@@ -12,6 +12,9 @@ const Login = () => {
 
     const { loginWithGoogle } = useFirbase()
     const navigate = useNavigate()
+
+    const location = useLocation()
+    const from = location.state?.from?.pathname || '/'
 
     const auth = getAuth(app)
     const [signInWithEmailAndPassword, user, loading, error,] = useSignInWithEmailAndPassword(auth)
@@ -26,6 +29,10 @@ const Login = () => {
     const handleLogin = (login) => {
         login.preventDefault()
         signInWithEmailAndPassword(email, password)
+    }
+
+    if(user){
+        navigate('/')
     }
 
     if (loading) {

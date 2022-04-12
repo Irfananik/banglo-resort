@@ -14,7 +14,7 @@ const Services = () => {
     return (
         <div className='px-4 pt-20 pb-24 mx-auto max-w-7xl md:px-2'>
             <p className='text-center text-3xl font-bold text-emerald-500'>Our Available Services</p>
-            <p className='text-center text-xl font-bold text-emerald-400'>Logged in as: {user? user.displayName : 'No body'}</p>
+            <p className='text-center text-xl font-bold text-emerald-400'>Login by google: {user? user.displayName : 'No body'}</p>
             <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 justify-items-center mt-20'>
                 {
                     rooms.map(room => <Service key={room.id} room={room} />)
