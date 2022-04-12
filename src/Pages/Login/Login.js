@@ -1,8 +1,10 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
+import useFirbase from '../../hooks/useFirebase';
 import './Login.css'
 
 const Login = () => {
+    const {loginWithGoogle} = useFirbase()
     const navigate = useNavigate()
     return (
         <div>
@@ -36,7 +38,7 @@ const Login = () => {
                         <div className='line-right' />
                     </div>
                     <div className='input-wrapper'>
-                        <button className='google-auth'>
+                        <button onClick={loginWithGoogle} className='google-auth'>
                             <img src="" alt='' />
                             <p> Continue with Google </p>
                         </button>
