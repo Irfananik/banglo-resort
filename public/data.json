@@ -1,0 +1,32 @@
+[
+    {
+        "id": 1,
+        "service": "Single Room",
+        "price": "150"
+    },
+    {
+        "id": 2,
+        "service": "Single Room With Balckony",
+        "price": "180"
+    },
+    {
+        "id": 3,
+        "service": "Dubble Room",
+        "price": "220"
+    },
+    {
+        "id": 4,
+        "service": "Dubble Room With Balckony",
+        "price": "250"
+    },
+    {
+        "id": 5,
+        "service": "Cupple Room",
+        "price": "300"
+    },
+    {
+        "id": 6,
+        "service": "Family Room",
+        "price": "350"
+    }
+]
