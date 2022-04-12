@@ -1,27 +1,54 @@
-import React from 'react';
+import { getAuth } from 'firebase/auth';
+import React, { useState } from 'react';
+import { useSignInWithEmailAndPassword } from 'react-firebase-hooks/auth';
 import { useNavigate } from 'react-router-dom';
+import app from '../../firebase.init';
 import useFirbase from '../../hooks/useFirebase';
 import './Login.css'
 
 const Login = () => {
-    const {loginWithGoogle} = useFirbase()
+    const [email, setEmail] = useState('')
+    const [password, setPassword] = useState('')
+
+    const { loginWithGoogle } = useFirbase()
     const navigate = useNavigate()
+
+    const auth = getAuth(app)
+    const [signInWithEmailAndPassword, user, loading, error,] = useSignInWithEmailAndPassword(auth)
+
+
+    const handleEmail = (email) => {
+        setEmail(email.target.value)
+    }
+    const handlePassword = (password) => {
+        setPassword(password.target.value)
+    }
+    const handleLogin = (login) => {
+        login.preventDefault()
+        signInWithEmailAndPassword(email, password)
+    }
+
+    if (loading) {
+        return <p className="text-7xl">Loading...</p>
+    }
+
     return (
         <div>
             <div className='auth-form-container '>
                 <div className='auth-form'>
-                    <h1>Login</h1>
-                    <form>
+                    <p className="text-red-500">{error?.message}</p>
+                    <h1 className="text-3xl text-slate-500">Login</h1>
+                    <form onSubmit={handleLogin}>
                         <div className='input-field'>
-                            <label htmlFor='email'>Email</label>
+                            <label htmlFor='email'><span className="text-2xl text-slate-500">Email</span></label>
                             <div className='input-wrapper'>
-                                <input type='text' name='email' id='email' />
+                                <input onBlur={handleEmail} type='text' name='email' id='email' required />
                             </div>
                         </div>
                         <div className='input-field'>
-                            <label htmlFor='password'>Password</label>
+                            <label htmlFor='password'><span className="text-2xl text-slate-500">password</span></label>
                             <div className='input-wrapper'>
-                                <input type='password' name='password' id='password' />
+                                <input onBlur={handlePassword} type='password' name='password' id='password' required />
                             </div>
                         </div>
                         <button type='submit' className='auth-form-submit'>

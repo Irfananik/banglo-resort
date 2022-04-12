@@ -1,29 +1,69 @@
-import React from 'react';
+import { getAuth } from 'firebase/auth';
+import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import app from '../firebase.init';
+import { useCreateUserWithEmailAndPassword } from 'react-firebase-hooks/auth';
 
 const SignUp = () => {
     const navigate = useNavigate()
+
+
+    const [email, setEmail] = useState('')
+    const [password, setPassword] = useState('')
+    const [confirmPassword, setConfirmPassword] = useState('')
+    const [error, setError] = useState('') 
+
+    const auth = getAuth(app)
+    const [createUserWithEmailAndPassword, user, loading] = useCreateUserWithEmailAndPassword(auth)
+
+
+    const handleEmial = event => {
+        setEmail(event.target.value)
+    }
+    const handlePassword = event => {
+        setPassword(event.target.value)
+    }
+    const handleConfirmPassword = event => {
+        setConfirmPassword(event.target.value)
+    }
+    const createUser = event => {
+        event.preventDefault()
+        if(password !== confirmPassword){
+            setError("Your password din't match")
+            return
+        }
+        createUserWithEmailAndPassword(email, password)
+    }
+
+    if(loading){
+        return <p className="text-7xl">Loading...</p>
+    }
+
+    if(user){
+        navigate('/')
+    }
+
     return (
         <div className='auth-form-container '>
             <div className='auth-form'>
                 <h1>Sign Up</h1>
-                <form>
+                <form onSubmit={createUser}>
                     <div className='input-field'>
                         <label htmlFor='email'>Email</label>
                         <div className='input-wrapper'>
-                            <input type='email' name='email' id='email' />
+                            <input onBlur={handleEmial} type='email' name='email' id='email' required/>
                         </div>
                     </div>
                     <div className='input-field'>
                         <label htmlFor='password'>Password</label>
                         <div className='input-wrapper'>
-                            <input type='password' name='password' id='password' />
+                            <input onBlur={handlePassword} type='password' name='password' id='password' required/>
                         </div>
                     </div>
                     <div className='input-field'>
                         <label htmlFor='confirm-password'>Confirm Password</label>
                         <div className='input-wrapper'>
-                            <input type='password' name='confirmPassword' id='confirm-password'/>
+                            <input onBlur={handleConfirmPassword} type='password' name='confirmPassword' id='confirm-password' required/>
                         </div>
                     </div>
                     <button type='submit' className='auth-form-submit'>
